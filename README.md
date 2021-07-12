@@ -11,5 +11,13 @@ It will also make use of D365FO API standards like DMF API and Odata API.
 
 Middleware Architecture
 
+The midleware components are:
+1. Azure SQL for Staging DB
+2. Logic Apps
+3. Azure Blob storage and tables
+4. Power Apps for monitoring
+
 ![image](https://user-images.githubusercontent.com/7789650/125200920-444ad680-e26d-11eb-8702-1dbbf1db8086.png)
+
+
 
