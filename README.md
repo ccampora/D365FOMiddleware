@@ -5,7 +5,8 @@ A Middleware built to implement integrations to Dynamics 365 for Finance and Ope
 1. Robust
 2. Troubleshooting capabilities
 3. Traceability
-4. scalability
+4. Scalability
+5. Extensible
 
 It will also make use of D365FO API standards like DMF API and Odata API. 
 
