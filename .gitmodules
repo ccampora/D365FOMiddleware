@@ -1,0 +1,3 @@
+[submodule "ZipFunction"]
+	path = ZipFunction
+	url = https://github.com/ccampora/ZipFunction
