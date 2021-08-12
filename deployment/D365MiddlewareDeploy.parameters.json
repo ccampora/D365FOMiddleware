@@ -1,0 +1,24 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "storageAccountName": {
+            "value": "d365middlewaretest"
+        },
+        "location": {
+            "value": "West Europe"
+        },
+        "containerName": {
+            "value": "cont-input01"
+        },
+        "queueName": {
+            "value": "queue-input01"
+        },
+        "tableLogName": {
+            "value": "tableLog"
+        },
+        "tableErrorRecordsName": {
+            "value": "tableError"
+        }
+    }
+}
