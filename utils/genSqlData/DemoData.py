@@ -1,8 +1,8 @@
-
 import json
 import logging
 import random
 import os
+import uuid
 from CreateSchemas import CreateSchemas
 
 import sys
@@ -55,18 +55,16 @@ else:
     for p in ReleasedProductsV2:
         unitPrice =  round(random.random() * random.randrange(1, 10), 2)
         ReleasedProductsV2PriceList[p["ItemNumber"]] = unitPrice
-    
-    # logging.debug(pretty_json(ReleasedProductsV2PriceList))
+        
+
+    logging.debug(pretty_json(ReleasedProductsV2PriceList))
 
     # For each customer create a random number of sales order headers
     salesOrders = []
     for c in CustomersV2: 
-        # from 1 to 20 sales orders per customer
-        for s in range(0, random.randint(1, 20)):
+        for s in range(0, random.randint(0, 20)):
             salesOrderLines = []
-            # from 2 to 200 sales order lines per customer
             for l in range(0, random.randint(2,100)):
-                # pick random itemNumber
                 ItemNumber = random.choice(ReleasedProductsV2)["ItemNumber"]
                 line = {
                     "ItemNumber": ItemNumber,
@@ -77,7 +75,6 @@ else:
                 salesOrderLines.append(line.copy())
             
             salesOrder = {
-                # simulates an external sales id from the LOB application
                 "ExternalSalesId": random.randint(100000,200000),
                 "CustomerAccount": c["CustomerAccount"],
                 "PaymentMethod": random.choice(CustomerPaymentMethods)["Name"],
@@ -86,24 +83,22 @@ else:
             }
             salesOrders.append(salesOrder.copy())
 
+    source_batch_identifier = uuid.uuid4()
     sql = CreateSchemas()
     sqltext = sql.get_create_table_sentences()
 
     for h in salesOrders:
-        sql.add_sql_sentence_sales_order_header(h)
+        sql.add_sql_sentence_sales_order_header(h, source_identifier=source_batch_identifier)
         for l in salesOrder["Lines"]:
             l["ExternalSalesId"] = h["ExternalSalesId"]
-            sql.add_sql_sentences_sales_order_lines(l)
+            sql.add_sql_sentences_sales_order_lines(l, source_identifier=source_batch_identifier)
 
     sqltext = sqltext + '\n'
     sqltext = sqltext + sql.get_sentences()
 
-    # Write SQL file to disk.
     with open("output.sql", "w") as outfile:
-        sql_file_path = os.getcwd() + "/output.sql"
-        logging.info(f'Generating file in {sql_file_path}')
         outfile.write(sqltext)
-        
+
 
     
     
